@@ -83,6 +83,8 @@ class MyExternalClass {
 ```
 
 
+#### Annotation Aliases
+
 Although the original purpose behind `Externals` was to hide documentation generated for external code,
 you can use the show/hide feature of the default theme to hide whatever code you choose, by marking it as `@external`.
 For example, you may have an internal API that you don't want shown in your docs by default.
