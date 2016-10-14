@@ -1,36 +1,52 @@
-## typedoc-plugin-external-module-name
+## typedoc-plugin-internal-external
 
 ### What
 
-A plugin for http://typedoc.io
+A plugin for [Typedoc](http://typedoc.org)
 
-When using ES6 modules in Typedoc, each file gets its own listing in "External Modules", i.e., "Globals".
-This can be annoying, for projects that utilize one file per class, for instance.
+Use an annotation (in a comment) to set code to "Internal" or "External".
 
-Suppose your source files are organized like this:
+### Examples
 
 ```
-thing1/foo.ts
-thing1/bar.ts
-thing2/baz.ts
-thing2/qux.ts
+/** make this function @internal */
+function internalFunction() {
+
+}
 ```
 
-Typedoc will create four "External Modules":
+```
+/** make this class @external */
+class ExternalClass {
 
-- "thing1/foo"
-- "thing1/bar"
-- "thing2/baz"
-- "thing2/qux"
+}
+```
 
-This plugin allows each file to specify the Typedoc External Module its code should belong to.
-If multiple files belong to the same module, they are merged.
+```
+/** @external Make all the code in this Dynamic Module external */
+/** A function in the dynamic module */
+function func1() {
+}
+/** Another function in the dynamic module */
+function func2() {
+}
+```
 
-This allows more control over the modules that Typedoc generates.
-Instead of the four modules above, we could group them into two:
 
-- thing1
-- thing2
+# Why
+
+Typedoc categorizes your code into "Internal" and "External".
+Essentially:
+
+- Internal: Your own code
+- External: Everything else
+
+When using the default theme, typedoc provides a checkbox to show/hide the generated "External" documentation.
+
+Typedoc uses the `files: []` array (in `tsconfig.json`) to determine if code is "Internal".
+If a file being parsed is in the `files: []` array, then the code in that file is "Internal".
+
+These annotations allow you to force code to be internal or external.
 
 ### Installing
 
@@ -38,56 +54,63 @@ Typedoc 0.4 has the ability to discover and load typedoc plugins found in node_m
 Simply install the plugin and run typedoc.
 
 ```
-npm install --save typedoc-plugin-external-module-name
+npm install --save typedoc-plugin-internal-external
 typedoc
 ```
 
 ### Using
 
-Add a comment block at the top of the file (ES6 module).
-Specify the Typedoc External Module using the `@module` annotation.
-A known issue: The comment block must be followed by another comment block for some reason (?).
+Add `@internal` or `@external` to a comment.
+That code's typedoc `Reflection` will have the `isExternal` boolean set accordingly.
 
-#### thing1/foo.ts
+
 ```js
 /**
- * @module thing1
+ * @internal
+ * This should always appear in the generated documentation
  */
-/** second comment block */
+class MyInternalClass {
 
-// foo stuff
-```
+}
 
-#### thing1/bar.ts
-```js
 /**
- * @module thing1
- */ /** */
+ * @external
+ * This should only appear in the generated documentation when "Externals" is checked
+ */
+class MyExternalClass {
 
-// bar stuff
+}
 ```
 
-#### thing2/baz.ts
-```js
+
+Although the original purpose behind `Externals` was to hide documentation generated for external code,
+you can use the show/hide feature of the default theme to hide whatever code you choose, by marking it as `@external`.
+For example, you may have an internal API that you don't want shown in your docs by default.
+
+Because marking "internal API" with "External" is counter-intuitive, you can choose an alias for the `@external`  annotation.
+
+On the typedoc command line, define the aliases:
+
+```
+typedoc ....... --internal-aliases internal,publicapi --external-aliases external,internalapi
+```
+
+Then you can use those aliases in your comments:
+
+```
 /**
- * @module thing2
- */ /** */
+ * This should always appear in the generated documentation
+ */
+class PublicClass {
 
-// baz stuff
-```
+}
 
-Multiple files may point to the same ES6 module.
-To specify the which file's comment block will be used to document the Typedoc Module page, use `@preferred`
-
-#### thing2/qux.ts
-```js
 /**
- * @module thing2
- * @preferred
- *
- * This comment will be used to document the "thing2" module.
- */ /** */
+ * @internalapi
+ * This internal api's `Refletion` has `isExternal === true`, and should
+ * only appear in the generated documentation when "Externals" is checked
+ */
+class InternalClass {
 
-// qux stuff
+}
 ```
-
