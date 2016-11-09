@@ -48,6 +48,7 @@ export class InternalExternalPlugin extends ConverterComponent
 
     this.listenTo(this.owner, {
       [Converter.EVENT_CREATE_DECLARATION]:   this.onDeclaration,
+      [Converter.EVENT_FILE_BEGIN]:           this.onFileBegin,
     });
   }
 
@@ -70,6 +71,31 @@ export class InternalExternalPlugin extends ConverterComponent
       reflection.flags.isExternal = false;
     } else if (externalMatch) {
       reflection.flags.isExternal = true;
+    }
+  }
+
+  /**
+   * Triggered when the converter has started loading a file.
+   *
+   * This sets the file's context `isExternal` value if an annotation is found.
+   * All symbols inside the file default to the file's `isExternal` value.
+   *
+   * @param context  The context object describing the current state the converter is in.
+   * @param reflection  The reflection that is currently processed.
+   * @param node  The node that is currently processed if available.
+   */
+  private onFileBegin(context: Context, reflection: Reflection, node?) {
+    if (!node) return;
+
+    // Look for @internal or @external
+    let comment = getRawComment(node);
+    let internalMatch = this.internalRegex.exec(comment);
+    let externalMatch = this.externalRegex.exec(comment);
+
+    if (internalMatch) {
+      context.isExternal = false;
+    } else if (externalMatch) {
+      context.isExternal = true;
     }
   }
 }

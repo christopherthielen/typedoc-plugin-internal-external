@@ -23,7 +23,7 @@ class ExternalClass {
 ```
 
 ```
-/** @external Make all the code in this Dynamic Module external */
+/** @external Make all the code in this file (Dynamic Module) external */
 /** A function in the dynamic module */
 function func1() {
 }
