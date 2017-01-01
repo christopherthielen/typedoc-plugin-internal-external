@@ -1,6 +1,6 @@
 {
   "name": "typedoc-plugin-internal-external",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Force a File or Reflection (symbol) to be @internal or @external",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,7 @@
   "author": "Chris Thielen",
   "license": "MIT",
   "dependencies": {
-    "typedoc": "^0.5.0",
+    "typedoc": "^0.5.3",
     "typescript": "^2.0.3"
   },
   "devDependencies": {

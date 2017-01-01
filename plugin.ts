@@ -1,11 +1,11 @@
-import { Reflection, IReflectionFlags } from "typedoc/lib/models/reflections/abstract";
-import { Component, ConverterComponent } from "typedoc/lib/converter/components";
-import { Converter } from "typedoc/lib/converter/converter";
-import { Context } from "typedoc/lib/converter/context";
-import { Comment } from "typedoc/lib/models/comments/comment";
-import { CommentPlugin } from "typedoc/lib/converter/plugins/CommentPlugin";
-import { getRawComment } from "typedoc/lib/converter/factories/comment";
-import { Options, OptionsReadMode } from "typedoc/lib/utils/options";
+import { Reflection, IReflectionFlags } from "typedoc/dist/lib/models/reflections/abstract";
+import { Component, ConverterComponent } from "typedoc/dist/lib/converter/components";
+import { Converter } from "typedoc/dist/lib/converter/converter";
+import { Context } from "typedoc/dist/lib/converter/context";
+import { Comment } from "typedoc/dist/lib/models/comments/comment";
+import { CommentPlugin } from "typedoc/dist/lib/converter/plugins/CommentPlugin";
+import { getRawComment } from "typedoc/dist/lib/converter/factories/comment";
+import { Options, OptionsReadMode } from "typedoc/dist/lib/utils/options";
 /**
  * This plugin allows you to specify if a symbol is internal or external.
  *
