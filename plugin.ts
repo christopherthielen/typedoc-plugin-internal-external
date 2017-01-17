@@ -53,7 +53,8 @@ export class InternalExternalPlugin extends ConverterComponent
 
   private static markSignatureAndMethod(reflection: Reflection, external: boolean) {
     reflection.flags.isExternal = external;
-    if (reflection.parent && reflection.parent.kind === ReflectionKind.Method) {
+    // if (reflection.parent && (reflection.parent.kind === ReflectionKind.Method || reflection.parent.kind === ReflectionKind.Function) {
+    if (reflection.parent && (reflection.parent.kind & ReflectionKind.FunctionOrMethod)) {
       reflection.parent.flags.isExternal = external;
     }
   }
