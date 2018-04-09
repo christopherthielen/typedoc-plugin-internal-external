@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@types/handlebars": "^4.0.31",
-    "typedoc": "^0.8.0",
+    "typedoc": "0.11.1",
     "typescript": "^2.4.0"
   }
 }
