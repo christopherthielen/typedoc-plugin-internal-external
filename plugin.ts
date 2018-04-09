@@ -1,11 +1,11 @@
-import { Reflection } from "typedoc/dist/lib/models/reflections/abstract";
-import { ReflectionKind } from "typedoc/dist/lib/models/reflections";
-import { Component, ConverterComponent } from "typedoc/dist/lib/converter/components";
-import { Converter } from "typedoc/dist/lib/converter/converter";
-import { Context } from "typedoc/dist/lib/converter/context";
-import { CommentPlugin } from "typedoc/dist/lib/converter/plugins/CommentPlugin";
-import { getRawComment } from "typedoc/dist/lib/converter/factories/comment";
-import { Options, OptionsReadMode } from "typedoc/dist/lib/utils/options";
+import { Reflection } from 'typedoc/dist/lib/models/reflections/abstract';
+import { ReflectionKind } from 'typedoc/dist/lib/models/reflections';
+import { Component, ConverterComponent } from 'typedoc/dist/lib/converter/components';
+import { Converter } from 'typedoc/dist/lib/converter/converter';
+import { Context } from 'typedoc/dist/lib/converter/context';
+import { CommentPlugin } from 'typedoc/dist/lib/converter/plugins/CommentPlugin';
+import { getRawComment } from 'typedoc/dist/lib/converter/factories/comment';
+import { Options, OptionsReadMode } from 'typedoc/dist/lib/utils/options';
 
 /**
  * This plugin allows you to specify if a symbol is internal or external.
@@ -25,9 +25,8 @@ import { Options, OptionsReadMode } from "typedoc/dist/lib/utils/options";
  * let bar = "123
  * ```
  */
-@Component({name:'internal-external'})
-export class InternalExternalPlugin extends ConverterComponent
-{
+@Component({ name: 'internal-external' })
+export class InternalExternalPlugin extends ConverterComponent {
   externals: string[];
   internals: string[];
 
@@ -38,23 +37,23 @@ export class InternalExternalPlugin extends ConverterComponent
     var options: Options = this.application.options;
     options.read({}, OptionsReadMode.Prefetch);
 
-    this.externals = (options.getValue('external-aliases') || "external").split(",");
-    this.internals = (options.getValue('internal-aliases') || "internal").split(",");
+    this.externals = (options.getValue('external-aliases') || 'external').split(',');
+    this.internals = (options.getValue('internal-aliases') || 'internal').split(',');
 
     this.externalRegex = new RegExp(`@(${this.externals.join('|')})\\b`);
     this.internalRegex = new RegExp(`@(${this.internals.join('|')})\\b`);
 
     this.listenTo(this.owner, {
-      [Converter.EVENT_CREATE_SIGNATURE]:     this.onSignature,
-      [Converter.EVENT_CREATE_DECLARATION]:   this.onDeclaration,
-      [Converter.EVENT_FILE_BEGIN]:           this.onFileBegin,
+      [Converter.EVENT_CREATE_SIGNATURE]: this.onSignature,
+      [Converter.EVENT_CREATE_DECLARATION]: this.onDeclaration,
+      [Converter.EVENT_FILE_BEGIN]: this.onFileBegin,
     });
   }
 
   private static markSignatureAndMethod(reflection: Reflection, external: boolean) {
     reflection.flags.isExternal = external;
     // if (reflection.parent && (reflection.parent.kind === ReflectionKind.Method || reflection.parent.kind === ReflectionKind.Function) {
-    if (reflection.parent && (reflection.parent.kind & ReflectionKind.FunctionOrMethod)) {
+    if (reflection.parent && reflection.parent.kind & ReflectionKind.FunctionOrMethod) {
       reflection.parent.flags.isExternal = external;
     }
   }
@@ -72,11 +71,10 @@ export class InternalExternalPlugin extends ConverterComponent
     // Look for @internal or @external
     let comment = reflection.comment;
 
-
     if (this.internals.some(tag => comment.hasTag(tag))) {
-      InternalExternalPlugin.markSignatureAndMethod(reflection, false)
+      InternalExternalPlugin.markSignatureAndMethod(reflection, false);
     } else if (this.externals.some(tag => comment.hasTag(tag))) {
-      InternalExternalPlugin.markSignatureAndMethod(reflection, true)
+      InternalExternalPlugin.markSignatureAndMethod(reflection, true);
     }
 
     this.internals.forEach(tag => CommentPlugin.removeTags(comment, tag));

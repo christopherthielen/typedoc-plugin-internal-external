@@ -1,4 +1,4 @@
-var plugin = require("./plugin");
+var plugin = require('./plugin');
 module.exports = function(PluginHost) {
   var app = PluginHost.owner;
   /**
@@ -18,4 +18,3 @@ module.exports = function(PluginHost) {
 
   app.converter.addComponent('internal-external', plugin.InternalExternalPlugin);
 };
-
