@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "precommit": "pretty-quick --staged"
   },
   "keywords": [
     "typedocplugin",
@@ -22,6 +23,9 @@
   },
   "devDependencies": {
     "@types/handlebars": "^4.0.31",
+    "husky": "^0.14.3",
+    "prettier": "^1.11.1",
+    "pretty-quick": "^1.4.1",
     "typedoc": "^0.8.0",
     "typescript": "^2.4.0"
   }
