@@ -21,8 +21,8 @@
     "@types/node" "*"
 
 "@types/handlebars@^4.0.31":
-  version "4.0.36"
-  resolved "https://registry.yarnpkg.com/@types/handlebars/-/handlebars-4.0.36.tgz#ff57c77fa1ab6713bb446534ddc4d979707a3a79"
+  version "4.0.38"
+  resolved "https://registry.yarnpkg.com/@types/handlebars/-/handlebars-4.0.38.tgz#d0ebec1934c0bba97f99a0cb703fe2ef8c4a662f"
 
 "@types/highlight.js@^9.1.8":
   version "9.12.2"
