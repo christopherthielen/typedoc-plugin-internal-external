@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@types/handlebars": "^4.0.31",
-    "husky": "^0.14.3",
+    "husky": "1.1.1",
     "prettier": "^1.11.1",
     "pretty-quick": "^1.4.1",
     "typedoc": "^0.8.0",
