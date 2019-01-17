@@ -1,11 +1,20 @@
-import { Reflection } from 'typedoc/dist/lib/models/reflections/abstract';
-import { ReflectionKind } from 'typedoc/dist/lib/models/reflections';
 import { Component, ConverterComponent } from 'typedoc/dist/lib/converter/components';
-import { Converter } from 'typedoc/dist/lib/converter/converter';
 import { Context } from 'typedoc/dist/lib/converter/context';
-import { CommentPlugin } from 'typedoc/dist/lib/converter/plugins/CommentPlugin';
+import { Converter } from 'typedoc/dist/lib/converter/converter';
 import { getRawComment } from 'typedoc/dist/lib/converter/factories/comment';
+import { CommentPlugin } from 'typedoc/dist/lib/converter/plugins/CommentPlugin';
+import { ReflectionKind } from 'typedoc/dist/lib/models/reflections';
+import { Reflection, ReflectionFlag, ReflectionFlags } from 'typedoc/dist/lib/models/reflections/abstract';
 import { Options, OptionsReadMode } from 'typedoc/dist/lib/utils/options';
+
+function setExternal(flags: ReflectionFlags, isExternal: boolean) {
+  if (typeof flags.setFlag === 'function') {
+    flags.setFlag(ReflectionFlag.External, isExternal);
+  } else {
+    // probably not needed, but won't hurt
+    (flags as any).isExternal = isExternal;
+  }
+}
 
 /**
  * This plugin allows you to specify if a symbol is internal or external.
@@ -51,10 +60,10 @@ export class InternalExternalPlugin extends ConverterComponent {
   }
 
   private static markSignatureAndMethod(reflection: Reflection, external: boolean) {
-    (reflection.flags as any).isExternal = external;
+    setExternal(reflection.flags, external);
     // if (reflection.parent && (reflection.parent.kind === ReflectionKind.Method || reflection.parent.kind === ReflectionKind.Function) {
     if (reflection.parent && reflection.parent.kind & ReflectionKind.FunctionOrMethod) {
-      (reflection.parent.flags as any).isExternal = external;
+      setExternal(reflection.parent.flags, external);
     }
   }
 
@@ -95,9 +104,9 @@ export class InternalExternalPlugin extends ConverterComponent {
     let comment = reflection.comment;
 
     if (this.internals.some(tag => comment.hasTag(tag))) {
-      (reflection.flags as any).isExternal = false;
+      setExternal(reflection.flags, false);
     } else if (this.externals.some(tag => comment.hasTag(tag))) {
-      (reflection.flags as any).isExternal = true;
+      setExternal(reflection.flags, true);
     }
 
     this.internals.forEach(tag => CommentPlugin.removeTags(comment, tag));
