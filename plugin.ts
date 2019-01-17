@@ -51,10 +51,10 @@ export class InternalExternalPlugin extends ConverterComponent {
   }
 
   private static markSignatureAndMethod(reflection: Reflection, external: boolean) {
-    reflection.flags.isExternal = external;
+    (reflection.flags as any).isExternal = external;
     // if (reflection.parent && (reflection.parent.kind === ReflectionKind.Method || reflection.parent.kind === ReflectionKind.Function) {
     if (reflection.parent && reflection.parent.kind & ReflectionKind.FunctionOrMethod) {
-      reflection.parent.flags.isExternal = external;
+      (reflection.parent.flags as any).isExternal = external;
     }
   }
 
@@ -95,9 +95,9 @@ export class InternalExternalPlugin extends ConverterComponent {
     let comment = reflection.comment;
 
     if (this.internals.some(tag => comment.hasTag(tag))) {
-      reflection.flags.isExternal = false;
+      (reflection.flags as any).isExternal = false;
     } else if (this.externals.some(tag => comment.hasTag(tag))) {
-      reflection.flags.isExternal = true;
+      (reflection.flags as any).isExternal = true;
     }
 
     this.internals.forEach(tag => CommentPlugin.removeTags(comment, tag));
