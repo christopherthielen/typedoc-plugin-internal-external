@@ -1,4 +1,4 @@
-var plugin = require('./plugin');
+var plugin = require('./typedoc-plugin-internal-external');
 module.exports = function(PluginHost) {
   var app = PluginHost.owner;
   /**

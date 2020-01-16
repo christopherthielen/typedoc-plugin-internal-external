@@ -7,6 +7,6 @@
     "outDir": "./",
     "experimentalDecorators": true
   },
-  "files": ["plugin.ts"],
+  "files": ["typedoc-plugin-internal-external.ts"],
   "exclude": ["node_module"]
 }
