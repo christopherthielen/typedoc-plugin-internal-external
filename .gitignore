@@ -4,7 +4,7 @@
 *.iml
 
 # Built using tsc
-plugin.js 
+typedoc-plugin-internal-external.js
 
 # Logs
 logs
