@@ -48,6 +48,8 @@ export class InternalExternalPlugin extends ConverterComponent {
     if (isTypedocVersion('< 0.16.0')) {
       const { OptionsReadMode } = require('typedoc/dist/lib/utils/options');
       (options as any).read({}, OptionsReadMode.Prefetch);
+    } else {
+      options.read(null);
     }
 
     this.externals = ((options.getValue('external-aliases') as string) || 'external').split(',');
