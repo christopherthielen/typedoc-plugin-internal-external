@@ -5,7 +5,8 @@ import { getRawComment } from 'typedoc/dist/lib/converter/factories/comment';
 import { CommentPlugin } from 'typedoc/dist/lib/converter/plugins/CommentPlugin';
 import { ReflectionKind } from 'typedoc/dist/lib/models/reflections';
 import { Reflection, ReflectionFlag, ReflectionFlags } from 'typedoc/dist/lib/models/reflections/abstract';
-import { Options, OptionsReadMode } from 'typedoc/dist/lib/utils/options';
+import { Options } from 'typedoc/dist/lib/utils/options';
+import { isTypedocVersion } from './typedocVersion';
 
 function setExternal(flags: ReflectionFlags, isExternal: boolean) {
   if (typeof flags.setFlag === 'function') {
@@ -44,10 +45,13 @@ export class InternalExternalPlugin extends ConverterComponent {
 
   initialize() {
     var options: Options = this.application.options;
-    options.read({}, OptionsReadMode.Prefetch);
+    if (isTypedocVersion('< 0.16.0')) {
+      const { OptionsReadMode } = require('typedoc/dist/lib/utils/options');
+      (options as any).read({}, OptionsReadMode.Prefetch);
+    }
 
-    this.externals = (options.getValue('external-aliases') || 'external').split(',');
-    this.internals = (options.getValue('internal-aliases') || 'internal').split(',');
+    this.externals = ((options.getValue('external-aliases') as string) || 'external').split(',');
+    this.internals = ((options.getValue('internal-aliases') as string) || 'internal').split(',');
 
     this.externalRegex = new RegExp(`@(${this.externals.join('|')})\\b`);
     this.internalRegex = new RegExp(`@(${this.internals.join('|')})\\b`);
