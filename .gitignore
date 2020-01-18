@@ -5,6 +5,7 @@
 
 # Built using tsc
 typedoc-plugin-internal-external.js
+typedocVersion.js
 
 # Logs
 logs
