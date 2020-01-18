@@ -14,7 +14,7 @@
   "license": "MIT",
   "devDependencies": {
     "@uirouter/cypress-runner": "latest",
-    "typedoc": "0.5.10",
+    "typedoc": "latest",
     "typedoc-plugin-internal-external": "latest"
   },
   "resolutions": {
