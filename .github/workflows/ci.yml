@@ -1,0 +1,25 @@
+name: 'CI: typedoc-plugin-external-module-name'
+
+on: [push]
+
+jobs:
+  test:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        typedoc_version: [0.5.10, 0.6.0, 0.7.2, 0.8.0, 0.9.0, 0.10.0, 0.11.1, 0.12.0, 0.13.0, 0.14.2, 0.15.8, 0.16.5]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Prepare to Test Downstream Projects
+        run: |
+          npm config set scripts-prepend-node-path auto
+          git config --global user.email gha@github.actions
+          git config --global user.name gha_github_actions
+      - name: Install Dependencies
+        run: yarn install --pure-lockfile
+      - name: Run Tests
+        run: yarn test
+        env:
+          TYPEDOC_VERSION: ${{ matrix.typedoc_version }}
