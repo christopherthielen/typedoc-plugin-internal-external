@@ -1,3 +1,11 @@
+## 2.1.1 (2020-01-19)
+
+[Compare `typedoc-plugin-internal-external` versions 2.1.0 and 2.1.1](https://github.com/christopherthielen/typedoc-plugin-internal-external/compare/2.1.0...2.1.1)
+
+### Bug Fixes
+
+- typedoc 0.16 -- read options on EVENT_BEGIN, not initialize() ([0dd4c60](https://github.com/christopherthielen/typedoc-plugin-internal-external/commit/0dd4c60))
+
 # 2.1.0 (2020-01-18)
 
 [Compare `typedoc-plugin-internal-external` versions 2.0.1 and 2.1.0](https://github.com/christopherthielen/typedoc-plugin-internal-external/compare/2.0.1...2.1.0)
