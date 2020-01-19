@@ -5,8 +5,6 @@ import { getRawComment } from 'typedoc/dist/lib/converter/factories/comment';
 import { CommentPlugin } from 'typedoc/dist/lib/converter/plugins/CommentPlugin';
 import { ReflectionKind } from 'typedoc/dist/lib/models/reflections';
 import { Reflection, ReflectionFlag, ReflectionFlags } from 'typedoc/dist/lib/models/reflections/abstract';
-import { Options } from 'typedoc/dist/lib/utils/options';
-import { isTypedocVersion } from './typedocVersion';
 
 function setExternal(flags: ReflectionFlags, isExternal: boolean) {
   if (typeof flags.setFlag === 'function') {
@@ -44,21 +42,8 @@ export class InternalExternalPlugin extends ConverterComponent {
   internalRegex: RegExp;
 
   initialize() {
-    var options: Options = this.application.options;
-    if (isTypedocVersion('< 0.16.0')) {
-      const { OptionsReadMode } = require('typedoc/dist/lib/utils/options');
-      (options as any).read({}, OptionsReadMode.Prefetch);
-    } else {
-      options.read(null);
-    }
-
-    this.externals = ((options.getValue('external-aliases') as string) || 'external').split(',');
-    this.internals = ((options.getValue('internal-aliases') as string) || 'internal').split(',');
-
-    this.externalRegex = new RegExp(`@(${this.externals.join('|')})\\b`);
-    this.internalRegex = new RegExp(`@(${this.internals.join('|')})\\b`);
-
     this.listenTo(this.owner, {
+      [Converter.EVENT_BEGIN]: this.readOptions,
       [Converter.EVENT_CREATE_SIGNATURE]: this.onSignature,
       [Converter.EVENT_CREATE_DECLARATION]: this.onDeclaration,
       [Converter.EVENT_FILE_BEGIN]: this.onFileBegin,
@@ -71,6 +56,16 @@ export class InternalExternalPlugin extends ConverterComponent {
     if (reflection.parent && reflection.parent.kind & ReflectionKind.FunctionOrMethod) {
       setExternal(reflection.parent.flags, external);
     }
+  }
+
+  private readOptions() {
+    const { options } = this.application;
+
+    this.externals = ((options.getValue('external-aliases') as string) || 'external').split(',');
+    this.internals = ((options.getValue('internal-aliases') as string) || 'internal').split(',');
+
+    this.externalRegex = new RegExp(`@(${this.externals.join('|')})\\b`);
+    this.internalRegex = new RegExp(`@(${this.internals.join('|')})\\b`);
   }
 
   /**
