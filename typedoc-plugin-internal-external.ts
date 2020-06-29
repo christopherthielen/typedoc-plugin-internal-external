@@ -87,8 +87,8 @@ export class InternalExternalPlugin extends ConverterComponent {
       InternalExternalPlugin.markSignatureAndMethod(reflection, true);
     }
 
-    this.internals.forEach(tag => CommentPlugin.removeTags(comment, tag));
-    this.externals.forEach(tag => CommentPlugin.removeTags(comment, tag));
+    this.internals.forEach(tag => comment.removeTags(tag));
+    this.externals.forEach(tag => comment.removeTags(tag));
   }
 
   /**
@@ -110,8 +110,8 @@ export class InternalExternalPlugin extends ConverterComponent {
       setExternal(reflection.flags, true);
     }
 
-    this.internals.forEach(tag => CommentPlugin.removeTags(comment, tag));
-    this.externals.forEach(tag => CommentPlugin.removeTags(comment, tag));
+    this.internals.forEach(tag => comment.removeTags(tag));
+    this.externals.forEach(tag => comment.removeTags(tag));
   }
 
   /**
