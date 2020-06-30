@@ -1,3 +1,11 @@
+# 2.2.0 (2020-06-30)
+
+[Compare `typedoc-plugin-internal-external` versions 2.1.1 and 2.2.0](https://github.com/christopherthielen/typedoc-plugin-internal-external/compare/2.1.1...2.2.0)
+
+### Features
+
+- Bring in backwards compatibility code from typedoc-plugin-external-module-name ([4452535](https://github.com/christopherthielen/typedoc-plugin-internal-external/commit/4452535))
+
 ## 2.1.1 (2020-01-19)
 
 [Compare `typedoc-plugin-internal-external` versions 2.1.0 and 2.1.1](https://github.com/christopherthielen/typedoc-plugin-internal-external/compare/2.1.0...2.1.1)
