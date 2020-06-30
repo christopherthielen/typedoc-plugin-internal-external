@@ -1,10 +1,10 @@
 import { Component, ConverterComponent } from 'typedoc/dist/lib/converter/components';
 import { Context } from 'typedoc/dist/lib/converter/context';
 import { Converter } from 'typedoc/dist/lib/converter/converter';
-import { getRawComment } from 'typedoc/dist/lib/converter/factories/comment';
-import { CommentPlugin } from 'typedoc/dist/lib/converter/plugins/CommentPlugin';
 import { ReflectionKind } from 'typedoc/dist/lib/models/reflections';
 import { Reflection, ReflectionFlag, ReflectionFlags } from 'typedoc/dist/lib/models/reflections/abstract';
+import { getRawComment } from './getRawComment';
+import { removeTags } from './typedocVersionCompatibility';
 
 function setExternal(flags: ReflectionFlags, isExternal: boolean) {
   if (typeof flags.setFlag === 'function') {
@@ -81,14 +81,14 @@ export class InternalExternalPlugin extends ConverterComponent {
     // Look for @internal or @external
     let comment = reflection.comment;
 
-    if (this.internals.some(tag => comment.hasTag(tag))) {
+    if (this.internals.some((tag) => comment.hasTag(tag))) {
       InternalExternalPlugin.markSignatureAndMethod(reflection, false);
-    } else if (this.externals.some(tag => comment.hasTag(tag))) {
+    } else if (this.externals.some((tag) => comment.hasTag(tag))) {
       InternalExternalPlugin.markSignatureAndMethod(reflection, true);
     }
 
-    this.internals.forEach(tag => CommentPlugin.removeTags(comment, tag));
-    this.externals.forEach(tag => CommentPlugin.removeTags(comment, tag));
+    this.internals.forEach((tag) => removeTags(comment, tag));
+    this.externals.forEach((tag) => removeTags(comment, tag));
   }
 
   /**
@@ -104,14 +104,14 @@ export class InternalExternalPlugin extends ConverterComponent {
     // Look for @internal or @external
     let comment = reflection.comment;
 
-    if (this.internals.some(tag => comment.hasTag(tag))) {
+    if (this.internals.some((tag) => comment.hasTag(tag))) {
       setExternal(reflection.flags, false);
-    } else if (this.externals.some(tag => comment.hasTag(tag))) {
+    } else if (this.externals.some((tag) => comment.hasTag(tag))) {
       setExternal(reflection.flags, true);
     }
 
-    this.internals.forEach(tag => CommentPlugin.removeTags(comment, tag));
-    this.externals.forEach(tag => CommentPlugin.removeTags(comment, tag));
+    this.internals.forEach((tag) => removeTags(comment, tag));
+    this.externals.forEach((tag) => removeTags(comment, tag));
   }
 
   /**
