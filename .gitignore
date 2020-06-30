@@ -6,6 +6,8 @@
 # Built using tsc
 typedoc-plugin-internal-external.js
 typedocVersion.js
+getRawComment.js
+typedocVersionCompatibility.js
 
 # Logs
 logs
