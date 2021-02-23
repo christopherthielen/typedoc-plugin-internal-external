@@ -25,7 +25,7 @@
   "devDependencies": {
     "@types/node": "^14.0.5",
     "@uirouter/publish-scripts": "^2.3.44",
-    "husky": "^4.2.5",
+    "husky": "^5.1.1",
     "lodash": "^4.17.15",
     "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
